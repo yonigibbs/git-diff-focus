@@ -44,8 +44,23 @@ To use the app, you'll need a GitHub personal access token with `repo` scope. Yo
 
 ## Running tests
 
+Unit tests (Vitest):
+
 ```sh
 npm test
+```
+
+E2E tests (Playwright — requires Chromium, auto-starts the dev server):
+
+```sh
+npx playwright install chromium   # first time only
+npm run test:e2e
+```
+
+E2E tests in UI mode (opens a browser where you can watch tests run, step through them, and inspect the DOM):
+
+```sh
+npm run test:e2e:ui
 ```
 
 ## Building for production
