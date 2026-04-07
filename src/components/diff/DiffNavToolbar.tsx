@@ -20,13 +20,20 @@ export function DiffNavToolbar() {
 
       <Separator />
 
-      <button
-        onClick={() => setViewMode(viewMode === "unified" ? "side-by-side" : "unified")}
-        className="px-2 py-0.5 text-xs text-gray-400 hover:text-gray-200 hover:bg-gray-800 rounded"
-        title="Toggle view mode (t)"
-      >
-        {viewMode === "unified" ? "Side-by-side" : "Unified"}
-      </button>
+      <div className="flex text-xs border border-gray-700 rounded overflow-hidden" title="Toggle view mode (t)">
+        <button
+          onClick={() => setViewMode("unified")}
+          className={`px-2 py-0.5 ${viewMode === "unified" ? "bg-gray-700 text-gray-200" : "text-gray-500 hover:text-gray-300 hover:bg-gray-800"}`}
+        >
+          Unified
+        </button>
+        <button
+          onClick={() => setViewMode("side-by-side")}
+          className={`px-2 py-0.5 ${viewMode === "side-by-side" ? "bg-gray-700 text-gray-200" : "text-gray-500 hover:text-gray-300 hover:bg-gray-800"}`}
+        >
+          Split
+        </button>
+      </div>
     </div>
   );
 }

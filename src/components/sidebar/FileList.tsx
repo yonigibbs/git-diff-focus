@@ -71,13 +71,20 @@ export function FileList() {
             <span> of {filtered.files.length}</span>
           )})
         </span>
-        <button
-          onClick={() => setViewMode(viewMode === "flat" ? "tree" : "flat")}
-          className="text-xs text-gray-500 hover:text-gray-300"
-          title={viewMode === "flat" ? "Switch to tree view" : "Switch to flat list"}
-        >
-          {viewMode === "flat" ? "🗂" : "☰"}
-        </button>
+        <div className="flex text-xs border border-gray-700 rounded overflow-hidden">
+          <button
+            onClick={() => setViewMode("flat")}
+            className={`px-2 py-0.5 ${viewMode === "flat" ? "bg-gray-700 text-gray-200" : "text-gray-500 hover:text-gray-300 hover:bg-gray-800"}`}
+          >
+            Flat
+          </button>
+          <button
+            onClick={() => setViewMode("tree")}
+            className={`px-2 py-0.5 ${viewMode === "tree" ? "bg-gray-700 text-gray-200" : "text-gray-500 hover:text-gray-300 hover:bg-gray-800"}`}
+          >
+            Tree
+          </button>
+        </div>
       </div>
       {viewMode === "flat" ? (
         <FlatFileList visibleFiles={visibleFiles} />
