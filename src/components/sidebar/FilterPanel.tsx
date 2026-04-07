@@ -129,18 +129,23 @@ function FilterListItem({
         {filter.name}
         {builtin && <span className="text-xs text-gray-600 ml-1">(built-in)</span>}
       </span>
-      {hitCount !== undefined && hitCount > 0 && (
-        <span className="text-xs text-yellow-500/60 flex-shrink-0">{hitCount}</span>
-      )}
-      {onRemove && (
-        <button
-          onClick={onRemove}
-          className="text-gray-600 hover:text-red-400 opacity-0 group-hover:opacity-100 flex-shrink-0 text-sm"
-          title="Remove filter"
-        >
-          &times;
-        </button>
-      )}
+      <span
+        className="text-xs text-yellow-500/60 flex-shrink-0 w-6 text-right"
+        title={hitCount ? `${hitCount} line${hitCount !== 1 ? "s" : ""} hidden by this filter` : undefined}
+      >
+        {hitCount ? hitCount : ""}
+      </span>
+      <span className="w-4 flex-shrink-0 text-center">
+        {onRemove ? (
+          <button
+            onClick={onRemove}
+            className="text-gray-600 hover:text-red-400 opacity-0 group-hover:opacity-100 text-sm"
+            title="Remove filter"
+          >
+            &times;
+          </button>
+        ) : null}
+      </span>
     </div>
   );
 }
