@@ -24,7 +24,7 @@ export function FilterPanel() {
   const [editingId, setEditingId] = useState<string | null>(null);
 
   return (
-    <div className="border-t border-gray-700 flex flex-col">
+    <div className="flex flex-col h-full overflow-y-scroll visible-scrollbar">
       <div className="px-3 py-2 flex items-center justify-between flex-shrink-0">
         <span className="text-xs text-gray-500 uppercase tracking-wider">Filters</span>
         <div className="flex items-center gap-2">
@@ -71,7 +71,7 @@ export function FilterPanel() {
       })()}
 
       {/* Filter list — fixed height, scrollable */}
-      <ul className="max-h-48 overflow-y-scroll visible-scrollbar px-1 flex-shrink-0">
+      <ul className="px-1">
         {filters.map((filter) => {
           const builtin = isBuiltin(filter);
           if (editingId === filter.id) return null;

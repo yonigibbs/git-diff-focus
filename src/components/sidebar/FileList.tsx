@@ -63,7 +63,7 @@ export function FileList() {
   if (!filtered) return null;
 
   return (
-    <div className="flex-1 overflow-y-scroll visible-scrollbar">
+    <div>
       <div className="px-3 py-2 flex items-center justify-between">
         <span className="text-xs text-gray-500 uppercase tracking-wider">
           Files ({visibleFiles.length}
