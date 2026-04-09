@@ -6,6 +6,7 @@ interface DiffLineProps {
   isHighlighted: boolean;
   hasComments: boolean;
   onCommentClick: () => void;
+  onContextMenu?: (e: React.MouseEvent) => void;
 }
 
 const kindStyles: Record<string, string> = {
@@ -26,7 +27,7 @@ const prefixChars: Record<string, string> = {
   context: " ",
 };
 
-export function DiffLineComponent({ line, isHighlighted, hasComments, onCommentClick }: DiffLineProps) {
+export function DiffLineComponent({ line, isHighlighted, hasComments, onCommentClick, onContextMenu }: DiffLineProps) {
   return (
     <div
       className={`flex font-mono text-sm leading-6 ${kindStyles[line.kind]} ${
@@ -34,6 +35,7 @@ export function DiffLineComponent({ line, isHighlighted, hasComments, onCommentC
       }`}
       data-line-id={line.id}
       data-line-kind={line.kind}
+      onContextMenu={onContextMenu}
     >
       {/* Comment gutter */}
       <CommentGutter hasComments={hasComments} onClick={onCommentClick} />

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useFilterStore } from "../../stores/filterStore";
 import { useFilteredDiff } from "../../hooks/useFilteredDiff";
+import { useFilterPrefillStore } from "../../stores/filterPrefillStore";
 import type { FilterPattern } from "../../types/filter";
 
 function isBuiltin(filter: FilterPattern): boolean {
@@ -22,6 +23,10 @@ export function FilterPanel() {
   const filtered = useFilteredDiff();
   const [showAddForm, setShowAddForm] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
+  const prefill = useFilterPrefillStore((s) => s.prefill);
+  const clearPrefill = useFilterPrefillStore((s) => s.clearPrefill);
+
+  const showForm = showAddForm || prefill !== null;
 
   return (
     <div className="flex flex-col h-full overflow-y-scroll visible-scrollbar">
@@ -33,7 +38,7 @@ export function FilterPanel() {
               {filtered.filter_stats.hidden_changes} hidden
             </span>
           )}
-          {!showAddForm && !editingId && (
+          {!showForm && !editingId && (
             <button
               onClick={() => setShowAddForm(true)}
               className="text-xs text-blue-400 hover:text-blue-300"
@@ -45,13 +50,15 @@ export function FilterPanel() {
       </div>
 
       {/* Add/edit form */}
-      {showAddForm && (
+      {showForm && !editingId && (
         <FilterForm
+          prefill={prefill ?? undefined}
           onSave={(values) => {
             addFilter(values);
             setShowAddForm(false);
+            clearPrefill();
           }}
-          onCancel={() => setShowAddForm(false)}
+          onCancel={() => { setShowAddForm(false); clearPrefill(); }}
         />
       )}
 
@@ -162,17 +169,20 @@ interface FilterFormValues {
 
 function FilterForm({
   initial,
+  prefill,
   onSave,
   onCancel,
 }: {
   initial?: FilterPattern;
+  prefill?: { name: string; oldRegex: string; newRegex: string; diffRegex: string };
   onSave: (values: FilterFormValues) => void;
   onCancel: () => void;
 }) {
-  const [name, setName] = useState(initial?.name ?? "");
-  const [oldRegex, setOldRegex] = useState(initial?.oldRegex ?? "");
-  const [newRegex, setNewRegex] = useState(initial?.newRegex ?? "");
-  const [diffRegex, setDiffRegex] = useState(initial?.diffRegex ?? "");
+  const defaults = prefill ?? initial;
+  const [name, setName] = useState(defaults?.name ?? "");
+  const [oldRegex, setOldRegex] = useState(defaults?.oldRegex ?? "");
+  const [newRegex, setNewRegex] = useState(defaults?.newRegex ?? "");
+  const [diffRegex, setDiffRegex] = useState(defaults?.diffRegex ?? "");
   const [caseInsensitive, setCaseInsensitive] = useState(initial?.flags.includes("i") ?? false);
   const [combinator, setCombinator] = useState<"and" | "or">(initial?.combinator ?? "and");
   const [error, setError] = useState<string | null>(null);
